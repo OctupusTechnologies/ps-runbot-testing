@@ -4,6 +4,8 @@ import {registry} from "@web/core/registry";
 const rpc = require('web.rpc');
 
 // TODO add error messages in the test
+// TODO add hidden actions
+// TODO show
 function isRunbotStartTestRegistration() {
 
 
@@ -17,8 +19,8 @@ function isRunbotStartTestRegistration() {
 
 }
 
-async function runbotStartRegistration({env}) {
-
+function runbotStartRegistration({env}) {
+    // let hidden = await isRunbotStartTestRegistration()
     return {
         type: "item",
         description: env._t("Start Test"),
@@ -35,14 +37,14 @@ async function runbotStartRegistration({env}) {
                 // _this.update();
             });
         },
-        hidden: await isRunbotStartTestRegistration(),
+        // hidden: hidden ,
         sequence: 310,
     };
 
 }
 
-async function runbotStopRegistration({env}) {
-
+function runbotStopRegistration({env}) {
+    // let hidden = await isRunbotStartTestRegistration()
     return {
         type: "item",
         description: env._t("Stop Test"),
@@ -54,13 +56,14 @@ async function runbotStopRegistration({env}) {
                 // context: {'default_record_type': 'demo'},
             });
         },
-        hidden: await !isRunbotStartTestRegistration(),
+        hidden: false,
         sequence: 311,
     };
 
 }
 
-async function runbotMakeTodoTest({env}) {
+function runbotMakeTodoTest({env}) {
+    // let hidden = await isRunbotStartTestRegistration()
     return {
         type: "item",
         description: env._t("Check to make"),
@@ -74,21 +77,13 @@ async function runbotMakeTodoTest({env}) {
                 env.services.action.doAction(act)
             });
         },
-        hidden: await !isRunbotStartTestRegistration(),
+        // hidden: !hidden,
         sequence: 312,
     };
 }
 
-
-function runbotActionSeparator({env}) {
-
-
-    return {
-        type: "separator",
-        sequence: 300,
-    };
-}
-async function runbotStartDemoRegistration({env}) {
+function runbotStartDemoRegistration({env}) {
+    // let hidden = await isRunbotStartTestRegistration()
     return {
         type: "item",
         description: env._t("Start Demo"),
@@ -101,15 +96,25 @@ async function runbotStartDemoRegistration({env}) {
                 env.services.action.doAction(act)
             });
         },
-        hidden: await isRunbotStartTestRegistration(),
+        // hidden: hidden,
         sequence: 313,
     };
 
 }
+
+function runbotActionSeparator({env}) {
+
+
+    return {
+        type: "separator",
+        sequence: 300,
+    };
+}
+
 
 registry.category('debug').category('action')
     .add('runbotActionSeparator', runbotActionSeparator)
     .add('runbotStartRegistration', runbotStartRegistration)
     .add('runbotStopRegistration', runbotStopRegistration)
     .add('runbotMakeTodoTest', runbotMakeTodoTest)
-    .add('runbotStartDemoRegistration', runbotStartDemoRegistration);
+// .add('runbotStartDemoRegistration', runbotStartDemoRegistration);
